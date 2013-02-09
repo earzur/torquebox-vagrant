@@ -7,7 +7,7 @@ Vagrant::Config.run do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "precise64"
+  config.vm.box = "centos63-x64"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -37,14 +37,15 @@ Vagrant::Config.run do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ['cookbooks', 'site-cookbooks']
-
-    chef.add_recipe('apt::default')
-    chef.add_recipe('rvm::vagrant')
-    chef.add_recipe('rvm::system')
-    chef.add_recipe('java::openjdk')
-    chef.add_recipe('torquebox::default')
-    chef.add_recipe('mongodb::10gen_repo')
-    chef.add_recipe('mongodb::default')
+    %w(
+      yum::yum
+      yum::epel
+      rvm::vagrant rvm::system
+      java::openjdk torquebox::default
+      mongodb::10gen_repo mongodb::default
+    ).each do |recipe|
+      chef.add_recipe(recipe)
+    end
 
     chef.json = {
       :rvm => {
@@ -56,6 +57,12 @@ Vagrant::Config.run do |config|
           :system_chef_solo => '/opt/vagrant_ruby/bin/chef-solo'
         },
         :global_gems => [{ :name => 'bundler'} ]
+      },
+      :torquebox => {
+          :version => "2.3.0",
+          :user => "torquebox",
+          :group => "torquebox",
+          :install_path => "/usr/local/torquebox",
       }
     }
   end
