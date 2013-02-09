@@ -14,6 +14,12 @@ jboss_home = "#{install_path}/jboss"
 jruby_home = "#{install_path}/jruby"
 torquebox_dist_path = "#{node['torquebox']['dist_home']}/torquebox-#{node['torquebox']['version']}"
 
+
+group node['torquebox']['group'] do
+  system true
+  action :create
+end
+
 user node['torquebox']['user'] do
   home install_path
   system true
@@ -21,7 +27,7 @@ user node['torquebox']['user'] do
 end
 
 group node['torquebox']['group'] do
-  action [:create,:manage]
+  action :manage
   members ['vagrant',node['torquebox']['user']]
 end
 
@@ -47,7 +53,7 @@ execute "unzip torquebox" do
 end
 
 execute "chown_dist_path" do
-  command "chown -Rv #{node['torquebox']['user']}:#{node['torquebox']['group']} #{node['torquebox']['install_path']}"
+  command "chown -Rv #{node['torquebox']['user']}:#{node['torquebox']['group']} #{torquebox_dist_path}"
 end
 
 link node['torquebox']['install_path'] do
@@ -61,10 +67,21 @@ template "/etc/profile.d/torquebox.sh" do
   source "torquebox_profile.erb"
 end
 
-link "torquebox startup script" do
-  target_file "/etc/init.d/torquebox.sh"
-  to "#{jboss_home}/bin/init.d/jboss-as-standalone.sh"
+case node['platform']
+  when 'ubuntu','debian'
+    template "/etc/init.d/torquebox" do
+      source "torquebox.init.sh.erb"
+      owner "root"
+      group "root"
+      mode "0755"
+    end
+  else
+    link "torquebox startup script" do
+      target_file "/etc/init.d/torquebox"
+      to "#{jboss_home}/bin/init.d/jboss-as-standalone.sh"
+    end
 end
+
 
 directory File.dirname(node['torquebox']['pid_file']) do
   owner node['torquebox']['user']
@@ -91,6 +108,20 @@ template "/etc/jboss-as/jboss-as.conf" do
   source "jboss-as.conf.erb"
 end
 
+
 service "torquebox" do
   action [:enable,:start]
+  supports [:start,:stop]
+end
+
+include_recipe "logrotate::default"
+
+# logrotate rule. We are on a development box, so update hourly and keep only 24hr worth
+# of console logs
+logrotate_app "torquebox" do
+  cookbook "logrotate"
+  path node['torquebox']['log_file']
+  frequency "hourly"
+  rotate 24
+  create "644 #{node['torquebox']['user']} #{node['torquebox']['group']}"
 end
