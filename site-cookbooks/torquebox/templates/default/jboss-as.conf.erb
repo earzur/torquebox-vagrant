@@ -1,0 +1,6 @@
+# General configuration for the init.d script
+JBOSS_USER=<%=@node['torquebox']['user']%>
+JBOSS_HOME=<%=@node['torquebox']['install_path']%>/jboss
+JBOSS_PIDFILE=<%=@node['torquebox']['pid_file']%>
+JBOSS_CONSOLE_LOG=<%=@node['torquebox']['log_file']%>
+JBOSS_CONFIG=standalone-ha.xml
