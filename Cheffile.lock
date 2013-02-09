@@ -5,6 +5,7 @@ SITE
     chef_handler (1.1.4)
     java (1.9.2)
       windows (>= 0.0.0)
+    logrotate (1.1.0)
     windows (1.8.2)
       chef_handler (>= 0.0.0)
     yum (2.1.0)
@@ -28,6 +29,7 @@ GIT
 DEPENDENCIES
   apt (>= 0)
   java (= 1.9.2)
+  logrotate (>= 0)
   mongodb (>= 0)
   rvm (>= 0)
 

@@ -1,6 +1,6 @@
 site "http://community.opscode.com/api/v1"
 
-cookbook 'apt'
+cookbook 'yum'
 cookbook 'java','1.9.2'
 cookbook 'rvm',
   :git => 'git://github.com/fnichol/chef-rvm.git',
@@ -8,3 +8,4 @@ cookbook 'rvm',
 cookbook 'mongodb',
   :git => 'git://github.com/edelight/chef-mongodb',
   :ref => 'master'
+cookbook 'logrotate'
