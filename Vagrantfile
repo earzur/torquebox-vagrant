@@ -42,6 +42,7 @@ Vagrant::Config.run do |config|
     chef.add_recipe('rvm::vagrant')
     chef.add_recipe('rvm::system')
     chef.add_recipe('java::openjdk')
+    chef.add_recipe('torquebox::default')
     chef.add_recipe('mongodb::10gen_repo')
     chef.add_recipe('mongodb::default')
 
