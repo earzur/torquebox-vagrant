@@ -40,7 +40,6 @@ Vagrant::Config.run do |config|
     %w(
       yum::yum
       yum::epel
-      rvm::vagrant rvm::system
       java::openjdk torquebox::default
       mongodb::10gen_repo mongodb::default
     ).each do |recipe|
@@ -48,16 +47,6 @@ Vagrant::Config.run do |config|
     end
 
     chef.json = {
-      :rvm => {
-        # force version and branch (see https://github.com/fnichol/chef-rvm/issues/157)
-        :version => "1.17.10",
-        :branch  => "none",
-        :default_ruby => 'ruby-1.9.3-p194',
-        :vagrant => {
-          :system_chef_solo => '/opt/vagrant_ruby/bin/chef-solo'
-        },
-        :global_gems => [{ :name => 'bundler'} ]
-      },
       :torquebox => {
           :version => "2.3.0",
           :user => "torquebox",
