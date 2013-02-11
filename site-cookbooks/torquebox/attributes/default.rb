@@ -9,5 +9,12 @@ default['torquebox']['install_path'] = "/usr/local/torquebox"
 default['torquebox']['dist_home'] = "/opt"
 
 default['torquebox']['pid_file'] = "/var/run/torquebox/torquebox.pid"
-default['torquebox']['log_file'] = "/var/log/torquebox/torquebox.log"
 
+default['torquebox']['log_file'] = "/var/log/torquebox/torquebox.log"
+default['torquebox']['system_log_file'] = "/var/log/torquebox/system.log"
+default['torquebox']['boot_log_file'] = "/var/log/torquebox/boot.log"
+
+
+# our vagrant VM external address
+default['torquebox']['listen_address'] = '192.168.4.3'
+default['torquebox']['mgmt_address'] = '192.168.4.3'

@@ -106,12 +106,20 @@ template "/etc/jboss-as/jboss-as.conf" do
   group "root"
   mode 0644
   source "jboss-as.conf.erb"
+  notifies :restart,"service[torquebox]",:delayed if %w(centos redhat amazon).include? node['platform']
 end
 
+#template "#{node['torquebox']['install_path']}/jboss/standalone/configuration/standalone-ha.xml" do
+#  source "standalone.xml.erb"
+#  owner node['torquebox']['user']
+#  group node['torquebox']['group']
+#  mode "0644"
+#  notifies :restart,"service[torquebox]",:delayed if %w(centos redhat amazon).include? node['platform']
+#end
 
 service "torquebox" do
   action [:enable,:start]
-  supports [:start,:stop]
+  supports [:start,:stop,:restart,:status]
 end
 
 include_recipe "logrotate::default"
