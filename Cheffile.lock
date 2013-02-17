@@ -1,12 +1,13 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apt (1.8.4)
+    apt (1.9.0)
     chef_handler (1.1.4)
     java (1.9.2)
       windows (>= 0.0.0)
     logrotate (1.1.0)
-    windows (1.8.2)
+    tmux (1.2.2)
+    windows (1.8.4)
       chef_handler (>= 0.0.0)
     yum (2.1.0)
 
@@ -23,5 +24,6 @@ DEPENDENCIES
   java (= 1.9.2)
   logrotate (>= 0)
   mongodb (>= 0)
+  tmux (>= 0)
   yum (>= 0)
 

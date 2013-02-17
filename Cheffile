@@ -1,6 +1,7 @@
 site "http://community.opscode.com/api/v1"
 
 cookbook 'yum'
+cookbook 'tmux'
 cookbook 'java','1.9.2'
 cookbook 'mongodb',
   :git => 'git://github.com/edelight/chef-mongodb',
