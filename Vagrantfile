@@ -40,6 +40,7 @@ Vagrant::Config.run do |config|
     %w(
       yum::yum
       yum::epel
+      tmux::package
       java::openjdk torquebox::default
       mongodb::10gen_repo mongodb::default
     ).each do |recipe|
